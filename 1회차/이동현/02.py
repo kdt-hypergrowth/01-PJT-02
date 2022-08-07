@@ -5,7 +5,24 @@ from pprint import pprint
 def vote_average_movies():
     pass 
     # 여기에 코드를 작성합니다.  
+# a986250901395deffed1ae6e646ae735
+# https://api.themoviedb.org/3/movie/76341?api_key=<<api_key>>
 
+BASE_URL = 'https://api.themoviedb.org/3/'
+path = 'movie/popular'
+params = {
+        'api_key': 'a986250901395deffed1ae6e646ae735',
+        'language': 'ko-KR'
+}
+response = requests.get(BASE_URL+path, params=params).json() # response에 api사이트에서 영화 popular api를 json형식으로 가져옴
+response2 = response.get('results')         # response2에 딕셔너리들중 result만 가져옴
+
+result = []
+
+for i in response2:
+  if i['vote_average'] > 8.0:     # response2에 딕셔너리들의 리스트를 반복으로 돌려서 그 id 값이 8.0 이상만 result에 넣음
+    result.append(i)
+pprint(result)
 
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':

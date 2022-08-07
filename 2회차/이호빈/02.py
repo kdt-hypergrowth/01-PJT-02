@@ -1,10 +1,29 @@
+from urllib import response
 import requests
 from pprint import pprint
 
 
 def vote_average_movies():
-    pass 
-    # 여기에 코드를 작성합니다.  
+    pass
+    url = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+    params = {
+        'api_key': '57289526949f876f1e243aee06612c5f',
+        'language': 'ko-KR'
+    }
+    
+    
+    high_rated = []
+    response = requests.get(url + path, params=params).json()
+    for result in response.get('results'):
+        if result.get('vote_average') >= 8:
+            high_rated.append(result)
+
+    return high_rated
+    
+
+
+
 
 
 # 아래의 코드는 수정하지 않습니다.

@@ -1,10 +1,31 @@
 import requests
 from pprint import pprint
 
-
 def recommendation(title):
-    pass 
-    # 여기에 코드를 작성합니다.  
+    BASE_URL = f'https://api.themoviedb.org/3'
+    path = '/search/movie'
+    params = {
+        'api_key': '5ddd1a3a8b4aeb5b2822e27f6b6231ef',
+        'language': 'ko-KR',
+        'query' : title
+    }
+    params2 = {
+        'api_key': '5ddd1a3a8b4aeb5b2822e27f6b6231ef',
+        'language': 'ko-KR'
+    }
+    try:
+        response = requests.get(BASE_URL+path, params=params).json()
+        movie_id = response.get('results')[0].get('id') 
+        # 무비아이디는 입력한 값으로 검색한 영화 정보들 중 첫 번째 영화의 아이디.
+        path2 = '/movie/'+str(movie_id)+'/recommendations'
+        response2 = requests.get(BASE_URL+path2, params=params2).json()
+        # response2는 무비아이디로 검색한 추천 영화들의 리스트.
+        rst = []
+        for i in range(len(response2.get('results'))): # 제목만 넣어라.
+            rst.append(response2.get('results')[i].get('title'))
+        return rst
+    except:
+        return None
 
 
 # 아래의 코드는 수정하지 않습니다.

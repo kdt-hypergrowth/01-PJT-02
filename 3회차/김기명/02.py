@@ -3,8 +3,16 @@ from pprint import pprint
 
 
 def vote_average_movies():
-    pass 
-    # 여기에 코드를 작성합니다.  
+    api_key = 'a709df78a1a09780128430e580888cb9'
+    
+    url = f'https://api.themoviedb.org/3/movie/popular?api_key={api_key}&language=en-US&page=1'
+    response = requests.get(url).json()
+    data = response['results']   #위의 url에 들어가보니 리스트 딕셔너리로 중첩된 코드가 있길래, 그걸 이용했다.
+    new_list = []     # 평점 8 이상의 영화들을 따로 뽑기위해서 미리 빈 리스트를 만든다
+    for i in data:    # data는 인기영화 1페이지의 20개 영화정보를 리스트로 큰 틀을 만든뒤 딕셔너리로 정리한 코드??다. 그래서 리스트의 요소들을 (영화 각각의 정보가 담긴 딕셔너리들을) 순회하기위해 for문 작성
+        if i['vote_average'] >= 8:  # i는 data의 각각의 요소, 즉 영화 한개의 정보를 담고있는 딕셔너리이므로, 그 딕셔너리에서 vote_average라는 키의 값이 8이상인 경우,
+            new_list.append(i)           # 빈 리스트인 new_list에 추가한다. 
+    return new_list     # 함수는 그 리스트를 반환한다.
 
 
 # 아래의 코드는 수정하지 않습니다.

@@ -1,11 +1,32 @@
+from collections import deque
+from urllib import response
 import requests
 from pprint import pprint
 
 
 def ranking():
-    pass 
-    # 여기에 코드를 작성합니다.  
-
+    # API를 받아올 주소
+    BASIC_URL = 'https://api.themoviedb.org/3'
+    # 인기영화 목록 주소
+    path = '/movie/popular'
+    # 내 api 키와 언어 설정
+    params = {
+      'api_key': 'ec5782cbc602381ddeeedd23dcf585b9',
+      'language': 'ko',
+      'region': 'KR'
+    }
+    # 영화 홈페이지 받아오기
+    response = requests.get(BASIC_URL + path, params=params)
+    # 받아온 정보를 json 딕셔너리 만들기
+    data = response.json()
+    # 평점을 위해 result 값 불러오기
+    avg = data.get('results')
+    # 새로 받을 리스트
+    avg_rank = []
+    # vote_average를 오름차순
+    avg_ranking = sorted(avg, key= lambda x:['vote_average'])
+    avg_rank = avg_ranking[:5]
+    return avg_rank
 
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':

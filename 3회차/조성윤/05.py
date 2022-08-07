@@ -1,9 +1,41 @@
 import requests
+import os
 from pprint import pprint
+from dotenv import load_dotenv
 
+load_dotenv()
 
 def credits(title):
-    pass 
+    base_url = 'https://api.themoviedb.org/3'
+    search_path = '/search/movie'
+    search_params = {
+        'api_key' : os.environ.get('API_KEY'), 
+        'language' : 'ko-KR',
+        'page' : '1',
+        'query' : title,
+        'include_adult' : False
+    }
+
+    search_response = requests.get(base_url+search_path, params=search_params).json().get('results')
+    if len(search_response) == 0 :
+        return None
+    
+    search_responese_first = search_response.pop(0).get('id')
+
+    credit_path = f'/movie/{search_responese_first}/credits'
+    credit_params = {
+        'api_key' : os.environ.get('API_KEY'), 
+        'language' : 'ko-KR',
+    }
+    credit_response = requests.get(base_url+credit_path, params=credit_params).json()
+    
+    credit_cast = credit_response.get('cast')
+    credit_crew = credit_response.get('crew')
+
+    cast_list = [d['name'] for d in credit_cast if d['cast_id'] < 10]
+    crew_list = [d['name'] for d in credit_crew if d['department'] == 'Directing']
+
+    return {'cast' : cast_list, 'crew' : crew_list}
     # 여기에 코드를 작성합니다.  
 
 

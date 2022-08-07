@@ -1,11 +1,38 @@
+# 문제02. 특정 조건에 맞는 인기 영화 조회
+# Getpopulations 데이터 요청 및 평점(vote_average) 8점 이상 영화 목록 리스트 반환
+
 import requests
 from pprint import pprint
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+api_key = os.getenv('api_key')
 
 
 def vote_average_movies():
     pass 
     # 여기에 코드를 작성합니다.  
+    # 변수 선언 및 접속 URL 설정
+    URL = f'https://api.themoviedb.org/3/movie/popular?api_key={api_key}&language=ko'
 
+    # 요청 보내서 응답을 받음
+    response = requests.get(URL)
+
+    # 응답 받은 데이터(json) 내 영화정보가 담긴 json 파일을 가져옴
+    data = response.json()
+
+    # 영화 정보를 담을 리스트 선언
+    movie_list = []
+
+    # 평점 정보를 가져와서 8.0 이상일 경우에만 영화정보 return
+    for i in range(0, len(data.get('results'))):
+      movie_info = data.get('results')[i].get('vote_average')
+      if movie_info >= 8.0:
+        movie_list.append(data.get('results')[i])
+      
+    
+    return movie_list
 
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':

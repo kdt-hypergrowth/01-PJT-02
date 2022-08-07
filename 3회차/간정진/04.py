@@ -1,11 +1,36 @@
 import requests
 from pprint import pprint
 
-
 def recommendation(title):
-    pass 
-    # 여기에 코드를 작성합니다.  
 
+    BASE_URL = 'https://api.themoviedb.org/3'
+    path = '/search/movie'
+    params = {
+        'api_key' : '385e790f9c3c5a53d55c8b036acb92b4',
+        'language' : 'ko-KR',
+        'query' : title
+    }
+
+    # 데이터 json 형태로 변환
+    response = requests.get(BASE_URL+path, params=params).json()
+    # 
+    movie_id = response.get('results')[0].get('id')
+
+    BASE_URL = 'https://api.themoviedb.org/3'
+    path = f'/movie/{movie_id}/recommendations'
+    params = {
+        'api_key' : '385e790f9c3c5a53d55c8b036acb92b4',
+        'language' : 'ko-KR'
+    }
+    
+    pass
+    response2 = requests.get(BASE_URL+path, params=params).json().get('results', None)
+
+    if response2 == None:
+        return None
+
+    recommend_movies = [movie.get('title') for movie in response2]
+    return recommend_movies
 
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':

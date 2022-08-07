@@ -1,10 +1,29 @@
+from unittest import result
 import requests
 from pprint import pprint
 
 
 def ranking():
-    pass 
-    # 여기에 코드를 작성합니다.  
+    base_url = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+
+    params = {
+        'api_key' : '09d0041de8747ddc735a2981381ae949',
+        'language' : 'ko',
+    }
+    res = requests.get(base_url+path, params=params)
+    data = res.json()
+    averList=[]
+    for i in data['results']:
+      averList.append(i["vote_average"])
+    averList = sorted(set(averList),reverse=True)
+    resultList=[]
+    for j in averList:
+      for i in data['results']:
+        if j == i["vote_average"]:
+          resultList.append(i)
+        if len(resultList) == 5:
+          return resultList
 
 
 # 아래의 코드는 수정하지 않습니다.

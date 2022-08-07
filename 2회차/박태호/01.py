@@ -2,8 +2,27 @@ import requests
 
 
 def popular_count():
-    pass 
-    # 여기에 코드를 작성합니다.  
+    BASE_URL = 'https://api.themoviedb.org/3'
+
+    path = '/movie/popular'
+    params = {
+        'api_key': '5b0bce187b00bc7d98febf5046458596',
+           }
+
+    response = requests.get(BASE_URL+path,params = params).json()
+    cnt =0
+    for i in response.get('results'):
+        cnt += 1
+
+    return cnt
+
+
+
+
+
+
+
+
 
 
 # 아래의 코드는 수정하지 않습니다.

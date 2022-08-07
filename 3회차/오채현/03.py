@@ -1,10 +1,31 @@
+from operator import itemgetter
+from dotenv import load_dotenv
+import os
 import requests
 from pprint import pprint
 
+load_dotenv()
+
+API_KEY = os.environ.get('TMDB_API_KEY')
+
+Base_Url = 'https://api.themoviedb.org/3'
+
+path = '/movie/popular'
+
+params = {
+    'api_key': API_KEY,
+    'language': 'ko-KR'
+}
 
 def ranking():
     pass 
     # 여기에 코드를 작성합니다.  
+    res = requests.get(Base_Url+path, params=params).json()
+    data = res['results']
+    # list_num = len(data)
+    result = sorted(data, key = itemgetter('vote_average'), reverse=True)
+
+    return result[0:5]
 
 
 # 아래의 코드는 수정하지 않습니다.

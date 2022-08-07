@@ -1,10 +1,24 @@
 import requests
-
+import pprint
 
 def popular_count():
-    pass 
-    # 여기에 코드를 작성합니다.  
+    
+    # API_key = '85bedf36756745d573166cfee3a12aa5'
+    URL = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+    params = {
+        'api_key' : '85bedf36756745d573166cfee3a12aa5'
 
+    }
+    response = requests.get(url = URL+path, params = params).json()
+    cnt = 0
+    
+    for i in response['results'] :
+        cnt  += 1
+    # pp = pprint.PrettyPrinter()
+
+    # pp.pprint(response)
+    return cnt
 
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':

@@ -1,10 +1,24 @@
 import requests
 from pprint import pprint
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
+APIKEY = os.getenv('APIKEY')
 
 def vote_average_movies():
-    pass 
-    # 여기에 코드를 작성합니다.  
+    res = []
+    response = requests.get(f'https://api.themoviedb.org/3/movie/popular?api_key={APIKEY}&language=ko-KR').json()
+    # pprint(response)
+    movie_list = response['results']
+    # pprint(movie_list)
+    for movie in movie_list:
+      if (movie["vote_average"] >= 8):
+        res.append(movie)
+    
+    return res
+
+    
 
 
 # 아래의 코드는 수정하지 않습니다.

@@ -1,10 +1,28 @@
 import requests
 from pprint import pprint
-
+from dotenv import load_dotenv
+import os
 
 def ranking():
-    pass 
-    # 여기에 코드를 작성합니다.  
+    load_dotenv()
+    key = os.environ.get('TMDB_API_key')
+
+    base_url = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+    prameters = {
+        'api_key' : key,
+        'language': 'ko-KR',
+        'page':1
+    }
+   
+    response = requests.get(base_url + path, params=prameters).json()
+    popular_movies_info = response.get('results')
+
+    sorted_highly_rated_movies = sorted(popular_movies_info, key=lambda movie: movie['vote_average'], reverse=True)
+
+    five_highly_rated_movies = sorted_highly_rated_movies[:5]
+    return five_highly_rated_movies
+
 
 
 # 아래의 코드는 수정하지 않습니다.

@@ -3,9 +3,27 @@ from pprint import pprint
 
 
 def ranking():
-    pass 
-    # 여기에 코드를 작성합니다.  
+  base_url = 'https://api.themoviedb.org/3'
+  path = '/movie/popular'
+  params = {
+  'api_key' : '54a9fff1e7fa56a1b0a2cc7c70c99ac4', 
+  'language' : 'ko-KR'
+  }
+  response = requests.get(base_url+path, params=params).json()
+  info = response.get('results') #리스트
 
+  list1 = sorted(info, key = lambda movie : movie['vote_average'], reverse=True) #reverse=true 내림차순
+  #유명한 영화 중 키를 람다함수 사용(k는 파라미터) 를 평점 높은 순으로 정렬
+  #sort: 원본을 변형시켜 정렬
+  #sorted: 원본 변형시키지 않고 괄호 안에 반복 가능한 자료형 입력
+  #둘 다 key, reverse를 매개변수로 가질 수 있고 key값으로 정렬되며 lamda를 가질 수 있음
+  #lamda는 특정 기준을 잡아줌
+
+  list2 = [] 
+  for i in range(5): #5개 추출
+    #list1이 리스트이기 때문
+    list2.append(list1[i]) #리스트1에서 추출한 i를 list2에 넣어둠
+  return list2
 
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':

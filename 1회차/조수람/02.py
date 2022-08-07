@@ -1,10 +1,28 @@
+import os
 import requests
 from pprint import pprint
-
+from dotenv import load_dotenv
 
 def vote_average_movies():
-    pass 
-    # 여기에 코드를 작성합니다.  
+  
+    url = f"https://api.themoviedb.org/3/movie/popular?api_key={api_key}"
+    response = requests.get(url).json() 
+
+    # pprint(response) # 먼저 출력 후 json 구조 파악
+
+    # 키 'result'의 val 값에 원하는 결과값 있는 것 확인 
+    pop_movies = response["results"] # 인기있는 영화들의 딕셔너리들로 이뤄진 리스트  
+    
+    movies_up_8 = []
+
+    for movie in pop_movies:
+      if movie['vote_average'] >= 8:
+        movies_up_8.append(movie)
+        
+    # print(movies_up_8, type(movies_up_8), len(movies_up_8))
+
+    return movies_up_8
+
 
 
 # 아래의 코드는 수정하지 않습니다.
@@ -13,6 +31,10 @@ if __name__ == '__main__':
     popular 영화목록중 vote_average가 8 이상인 영화목록 반환
     (주의) popular 영화목록의 경우 시기에 따라 아래 예시 출력과 차이가 있을 수 있음
     """
+
+    load_dotenv()
+    api_key = os.getenv('api_key')
+
     pprint(vote_average_movies())
     """
     [{'adult': False,

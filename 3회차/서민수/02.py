@@ -1,11 +1,40 @@
+from audioop import avgpp
+from urllib import response
 import requests
 from pprint import pprint
 
 
 def vote_average_movies():
-    pass 
-    # 여기에 코드를 작성합니다.  
+    # API를 받아올 주소
+    BASIC_URL = 'https://api.themoviedb.org/3'
+    # 인기영화 목록 주소
+    path = '/movie/popular'
+    # 내 api 키와 언어 설정
+    params = {
+      'api_key': 'ec5782cbc602381ddeeedd23dcf585b9',
+      'language': 'ko',
+      'region': 'KR'
+    }
+    avg_movie = []
+    #request 요청하고 받아준다
+    response = requests.get(BASIC_URL + path, params=params)
+    # 응답 받은 response를 json 딕셔너리로 바꿔줌
+    data = response.json()
+    # print(data_dict) 영화정보 받아옴
 
+    # 딕셔너리로 받은 정보에서 점수를 위해 result값 호출
+    avg = data.get('results')
+    # pprint(avg) 영화리스트 담겨있음
+    
+    # for 반복문 시작
+    for avgs in avg:
+      # avgs에서 평균 점수를 가져온다
+      avg1 = avgs.get('vote_average')
+      # 만약 평균점수가 8점이거나 8점보다 높다
+      if avg1 >= 8:
+        # avg_movie 리스트에 추가해라 avgs에서
+        avg_movie.append(avgs)
+    return avg_movie
 
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':

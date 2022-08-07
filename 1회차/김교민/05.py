@@ -5,7 +5,37 @@ from pprint import pprint
 def credits(title):
     pass 
     # 여기에 코드를 작성합니다.  
+    url = 'https://api.themoviedb.org/3'
+    path = '/search/movie'
+    params = {
+        'api_key': '42259abc0f3225655eba5deb9d51f7f3',
+        'language': 'ko-KR',
+        'query': title
+    }
+    re = requests.get(url+path, params=params).json()
+    id=re.get('results')
+    if not id:
+        return 
+    id2 = id[0]['id']
+    
+    path2 = f'/movie/{id2}/credits'
+    params2 = {
+        'api_key': '42259abc0f3225655eba5deb9d51f7f3',
+        'language': 'ko-KR'
+    }
+    re2 = requests.get(url+path2, params=params2).json()    
+    c1 = re2.get('cast')
+    c2 = re2.get('crew')
+    credit_result = {'cast':[], 'crew':[]}
+    for i in c1:
+        cid = i.get('cast_id')
+        if cid < 10:
+            credit_result['cast'].append(i.get('name'))
 
+    for j in c2:
+        if j['department'] == 'Directing':
+            credit_result['crew'].append(j.get('name'))
+    return credit_result
 
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':
@@ -17,3 +47,4 @@ if __name__ == '__main__':
     # {'cast': ['Song Kang-ho', 'Lee Sun-kyun', ..., 'Jang Hye-jin'], 'crew': ['Bong Joon-ho', 'Park Hyun-cheol', ..., 'Yoon Young-woo']}
     pprint(credits('검색할 수 없는 영화'))
     # None
+    

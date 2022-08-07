@@ -5,6 +5,27 @@ from pprint import pprint
 def ranking():
     pass 
     # 여기에 코드를 작성합니다.  
+    base_url = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+    params = {
+        'api_key': 'e2be94a1762b4b81af8b205d5e2bcb5f',
+        'language': 'ko-KR'
+    }
+    response = requests.get(base_url+path, params=params).json()
+    high_vote_lst = []
+    mv_lst = []
+    results = response['results']
+    for mv in results:
+      high_vote_lst.append(mv['vote_average'])
+    for score in sorted(high_vote_lst)[-1:-5:-1]:
+      for i in range(len(results)):
+        if len(mv_lst) == 5:
+          break
+        if results[i]['vote_average'] == score:
+          mv_lst.append(results[i])
+        
+    return mv_lst
+
 
 
 # 아래의 코드는 수정하지 않습니다.
@@ -14,6 +35,7 @@ if __name__ == '__main__':
     (주의) popular 영화목록의 경우 시기에 따라 아래 예시 출력과 차이가 있을 수 있음
     """
     pprint(ranking())
+    
     """
     [{'adult': False,
       'backdrop_path': '/odJ4hx6g6vBt4lBWKFD1tI8WS4x.jpg',

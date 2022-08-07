@@ -1,10 +1,29 @@
 import requests
 from pprint import pprint
 
+# **TIP.** 정렬시 sorted 함수의 key를 활용합니다.
 
 def ranking():
-    pass 
-    # 여기에 코드를 작성합니다.  
+    base_url = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+    params = {
+    'api_key': '0f810078345847f7d4b6930619626f55', #API값 정의
+    'language': 'ko-KR'
+    }
+    vote_average_top5 = []
+    response = requests.get(base_url + path, params = params).json() #url과 API값을 이용하여 요청-> json문서화 해줘 
+    results = response['results'] #받은값에서 결과 딕셔너리값만 추출
+    vote_average = sorted(results, key = lambda x : (-x['vote_average']))  
+    
+    cnt = 5
+    for i in vote_average:
+        if cnt != 0:
+            vote_average_top5.append(i)
+            cnt -= 1
+        else :
+            break
+
+    return vote_average_top5
 
 
 # 아래의 코드는 수정하지 않습니다.

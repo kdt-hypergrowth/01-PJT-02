@@ -1,10 +1,39 @@
 import requests
 from pprint import pprint
-
+# API 키 값 = api_key=9c84ae21c51581335eb9aca74793ddb9
+# TMDB 주소  https://api.themoviedb.org/3
 
 def vote_average_movies():
     pass 
-    # 여기에 코드를 작성합니다.  
+
+base_ulr ='https://api.themoviedb.org/3'
+path = '/movie/popular'   
+params = {
+  'api_key' : '9c84ae21c51581335eb9aca74793ddb9',
+  'language' : 'ko-KR'
+}
+
+response = requests.get(base_ulr+path,params=params).json()
+
+# 먼저 영화의 평점 vote averge를 가져와서 if문으로 비교후 8이 넘는다면 
+#bote_movie로 옮긴다. 포문으로 영화의 갯수를 측정한 후
+# for문으로 영화의 평점을 뽑은 뒤  
+#각각의 영화를 평점의 value값을 if문으로 비교 비교 후 8점이 넘는 영화는
+# 보관함으로 이동하자  
+movies = (response.get('results')) # movies는 주소에서 가져온 영화들의 값들
+bote_movie = []                    # bote_movie에 8점이 넘는 영화를 보관
+
+for i in range(len(movies)):       #for문으로 영화의 갯수만큼 반복문을 돌림
+  if movies[i].get('vote_average') >= 8:   #영화에 평점이 8이 넘는다면 bote_movie보관함에 더해준 후 마지막에 프린트 
+    bote_movie.append(movies[i])
+pprint(bote_movie)
+
+
+
+
+# movies_vote
+
+# print(movies,type(movies))
 
 
 # 아래의 코드는 수정하지 않습니다.

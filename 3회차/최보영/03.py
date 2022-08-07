@@ -1,10 +1,30 @@
+from operator import itemgetter
 import requests
 from pprint import pprint
 
 
 def ranking():
-    pass 
-    # 여기에 코드를 작성합니다.  
+    URL = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+    params = {
+        'api_key': '37bb8661afe2c868dfe6c3aa758dff3a',
+        'language': 'ko-KR'
+    }
+    response = requests.get(URL + path, params=params).json()
+
+    movies = response.get('results')
+    ranked_movies = sorted(movies, key=itemgetter('vote_average'), reverse=True)
+    top5_movies = list()
+
+    rank = 0
+    while True:
+        if rank == 5:
+            break
+
+        top5_movies.append(ranked_movies[rank])
+        rank += 1
+
+    return top5_movies
 
 
 # 아래의 코드는 수정하지 않습니다.

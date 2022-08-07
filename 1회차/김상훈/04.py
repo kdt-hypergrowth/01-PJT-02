@@ -4,9 +4,19 @@ from pprint import pprint
 
 def recommendation(title):
     pass 
-    # 여기에 코드를 작성합니다.  
-
-
+    BASE_URL = 'https://api.themoviedb.org/3'
+    path = '/movie/496243/recommendations' # /movie/{movie_id}/recommendations
+    params = {
+        'api_key': '',
+        'language': 'ko-KR'
+        
+    }
+    response = requests.get(BASE_URL+path, params=params).json()
+    movie_dict = response.get('results',None) #<=reponse의 'results'항목을 movie_dict에 저장
+    if movie_dict == None:
+        return None     #! 올바르지 않은 영화 제목으로 id가 없는 경우 None을 반환
+    recommend_movies = [movie.get('title') for movie in movie_dict] #  id값은 있지만 추천영화가 없는 경우 빈 리스트 반환
+    return recommend_movies
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':
     """

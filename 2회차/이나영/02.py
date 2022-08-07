@@ -3,9 +3,18 @@ from pprint import pprint
 
 
 def vote_average_movies():
-    pass 
-    # 여기에 코드를 작성합니다.  
+  BASE_URL = 'https://api.themoviedb.org/3'
+  path = '/movie/popular'
+  params = {
+    'api_key': '1a34d0a469973ec909fc02914699f88d',
+    'language': 'ko-KR'
+}
+  response = requests.get(BASE_URL+path, params=params).json()
+  
+  data = response.json()
 
+  def fun_movie(data):
+    
 
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':

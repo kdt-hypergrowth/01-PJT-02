@@ -5,6 +5,20 @@ from pprint import pprint
 def ranking():
     pass 
     # 여기에 코드를 작성합니다.  
+    rankt5 = [] # 평점이 높은 순으로 5개의 영화를 출력시킬 리스트를 새로 만든다.
+    url = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+    params = {
+        'api_key': '42259abc0f3225655eba5deb9d51f7f3',
+        'language': 'ko-KR'
+    }
+    re = requests.get(url+path, params=params).json()
+    rank = re.get('results')
+    # lambda 함수를 이용해서 오름차순으로 정렬시키고 거꾸로 뒤집는다.
+    srank = sorted(rank, key=lambda x:x['vote_average'], reverse=True)
+    rankt5 = srank[:5] # 정렬된 dic에서 앞에서 5개만 가져오기
+    return rankt5
+        
 
 
 # 아래의 코드는 수정하지 않습니다.

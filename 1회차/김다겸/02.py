@@ -1,10 +1,41 @@
 import requests
 from pprint import pprint
 
+# 인기 영화 목록 중 평점이 8점 이상인 영화 목록을 출력합니다.
+# requests 라이브러리를 활용하여 TMDB에서 현재 인기 있는 영화 목록(Get Populations) 데이터를 요청합니다.
+# 응답 받은 데이터 중 평점(`vote_average`)이 8점 이상인 영화 목록을 리스트로 반환하는 함수를 작성합니다.
 
 def vote_average_movies():
-    pass 
-    # 여기에 코드를 작성합니다.  
+    BASE_URL = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+    params = {
+        'api_key' : '94ceed584568fa7a9113545f2e4291f5',
+        'language' : 'ko-KR'
+    }
+
+    # 해당 BASE_URL에서 API request
+    response = requests.get(BASE_URL+path, params=params)
+    # 요청한 데이터를 json 형태로 가져온 후 'results'에 해당하는 값들을 저장
+    movies = response.json().get('results')
+
+    # [{'adult': False, 'backdrop_path': '/393mh1AJ0GYWVD7Hsq5KkFaTAoT.jpg', 'genre_ids': [12, 28, 878],
+    # 'id': 507086, 'original_language': 'en',  'original_title': 'Jurassic World Dominion',  'overview': '어쩌구 저쩌구',    
+    # 'popularity': 11579.18, 'poster_path': '/odxdUZWZ7fBfy3ZRj063wuJnZvo.jpg', 'release_date': '2022-06-01',
+    # 'title': '쥬라기 월드: 도미니언', 'video': False, 'vote_average': 7, 'vote_count': 1794}, ...(생략)]
+    
+    # 빈 답지 리스트 생성
+    answer = []
+
+    # movies에 반복문으로 접근
+    for movie in movies:
+      # movie의 'vote_average' 값 저장
+      vote_average = movie.get('vote_average')
+      # 평점이 8 이상이면
+      if  vote_average >= 8:
+        # answer 리스트에 해당 movie 정보 저장
+        answer.append(movie)
+    
+    return answer
 
 
 # 아래의 코드는 수정하지 않습니다.

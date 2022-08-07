@@ -1,10 +1,30 @@
+# - 인기 영화 목록 중 평점이 8점 이상인 영화 목록을 출력합니다.
+# - requests 라이브러리를 활용하여 TMDB에서 현재 인기 있는 영화 목록(Get Populations) 데이터를 요청합니다.
+# - 응답 받은 데이터 중 평점(`vote_average`)이 8점 이상인 영화 목록을 리스트로 반환하는 함수를 작성합니다.
+
+
 import requests
 from pprint import pprint
 
 
 def vote_average_movies():
-    pass 
-    # 여기에 코드를 작성합니다.  
+    URL = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+    params = {
+        'api_key': '66393cafe6777ee92a0cc513816794be',
+        'language': 'ko-KR'
+    }
+
+    response = requests.get(URL+path, params=params).json()
+    py = 'vote_average'
+    list0 = []
+    x = response['results']  # 리스트
+
+    for i in range(len(x)) :
+      if x[i]['vote_average'] >= 8: # 결과 리스트에서 i번째 'vote_average'값이 8이상이면
+          list0.append(x[i]) # i번째 영화의 딕셔너리를 리스트에 집어넣어라
+
+    return list0
 
 
 # 아래의 코드는 수정하지 않습니다.

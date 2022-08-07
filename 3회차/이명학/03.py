@@ -1,10 +1,29 @@
 import requests
 from pprint import pprint
 
+BASE_URL = 'https://api.themoviedb.org/3/'
+path = 'movie/popular'
+params = {
+    'api_key': '7f4bcebe925d6be694eced873e49d10e',
+    'language': 'ko-KR'
+}
+
 
 def ranking():
-    pass 
-    # 여기에 코드를 작성합니다.  
+    pass
+    response = requests.get(BASE_URL+path, params=params)
+    data = response.json()
+    # 여기에 코드를 작성합니다.
+    s = []
+    for i in range(20):
+        if list(data.get('results'))[i]['vote_average'] >= 7.9:
+          # 정렬해보니 [8.4, 8.1, 7.9, 7.9, 7.9]가 별점이 높은 순,
+          # dict의 keys를 조작하는 방법이 필요함
+            s.append(list(data.get('results'))[i])
+
+    return s
+
+    # 여기에 코드를 작성합니다.
 
 
 # 아래의 코드는 수정하지 않습니다.

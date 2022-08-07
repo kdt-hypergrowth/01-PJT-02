@@ -5,6 +5,23 @@ from pprint import pprint
 def ranking():
     pass 
     # 여기에 코드를 작성합니다.  
+    return (V_AM_5)
+import requests
+V_AM_5 = []
+Base_URL = "https://api.themoviedb.org/3/"
+path = 'movie/popular/'
+params = {
+    'api_key': 'c88039a3ac8630f316e088cdecaae57a',
+    'language': 'ko-KR'}
+
+response =requests.get(Base_URL+path, params=params).json()
+
+movie_details = response.get('results',None)
+sorted_vote_average = sorted(movie_details, key = lambda x: x['vote_average'], reverse = True)
+#lambda 표현식을 사용하여 movie_deetails에 있는 vote_average를 불러 온 후 리버스를 사용하여 뒤집은 뒤
+V_AM_5 = sorted_vote_average[:5]
+# 그 상태에서 5번째 까지 V_AM_5에 넣은 후 리턴시켜준다.
+
 
 
 # 아래의 코드는 수정하지 않습니다.

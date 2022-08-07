@@ -1,10 +1,21 @@
 import requests
 from pprint import pprint
 
-
 def vote_average_movies():
-    pass 
-    # 여기에 코드를 작성합니다.  
+    BASE_URL = 'https://api.themoviedb.org/3'
+    path = '/movie/popular' # 상세경로
+    params = {
+        'api_key': '3b6818af52c899a45712c6e71f6ecc94',
+        'language': 'ko-KR'
+    }
+    response = requests.get(BASE_URL+path, params=params).json() # 인기영화 정보를 response에 넣어준다. 
+    
+    pop_list = []                       # 리스트를 만든다. 
+    for i in response.get('results'):   # results 정보를 i에 넣어준다. 
+      if i.get('vote_average') > 8.0:   # i가 갖고있는 results에서 vote_avg를 기준으로 설정하고, 8점 이상인 경우
+        pop_list.append(i)              # 리스트에 i값을 추가한다. 
+    return pop_list                     # 리스트를 반환한다. 
+
 
 
 # 아래의 코드는 수정하지 않습니다.
@@ -13,7 +24,7 @@ if __name__ == '__main__':
     popular 영화목록중 vote_average가 8 이상인 영화목록 반환
     (주의) popular 영화목록의 경우 시기에 따라 아래 예시 출력과 차이가 있을 수 있음
     """
-    pprint(vote_average_movies())
+    pprint(vote_average_movies())      # 반환한 리스트 정보가 담긴 함수를 출력한다. 
     """
     [{'adult': False,
       'backdrop_path': '/ocUp7DJBIc8VJgLEw1prcyK1dYv.jpg',

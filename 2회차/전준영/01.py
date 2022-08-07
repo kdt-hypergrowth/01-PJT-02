@@ -1,4 +1,13 @@
 import requests
+jeon="151"
+url = f"https://api.themoviedb.org/3/movie/popular?api_key=<<api_key>>&language=en-US&page=1"
+path='/get/movie/popular'
+params={'api_key': '8854669b886a6c07c12ea947bcc2311d'
+}
+header0=f'Authorization: Bearer <<access_token>>'
+response = requests.get(url,params=params)
+
+print(response)
 
 
 def popular_count():

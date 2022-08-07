@@ -1,13 +1,26 @@
 import requests
 from pprint import pprint
+BASE_URL = 'https://api.themoviedb.org/3'
+path = '/movie/popular'
 
+params = {
+    'api_key': 'dcc1e7ed069f7427a2816e92b32e7c8b',
+    'language': 'ko-KR'
+}
+
+response = requests.get(BASE_URL+path, params = params).json()
 
 def ranking():
-    pass 
-    # 여기에 코드를 작성합니다.  
+  top5 = [] # 상위 5개의 영화 가 들어갈 리스트 작성
+  movies = response.get('results')
+  sor_movies = sorted(movies, key = lambda x: x['vote_average'], reverse = True)
+  # movies 안에 있는 영화 정보는 딕셔너리이기 때문에 딕셔너리 각각의 평점을 정렬
+  # 해야 한다. 그러기 위해서는 람다함수를 사용하여 sorted 함수의 키를 정하고 실행
+  # 한다. 마지막 리버스를 돌려서 높은 순서가 먼저 나오게 한다.
+  top5 = sor_movies[:5] # 0, 1, 2 ,3 , 4 까지 순서대로 출력
+  return top5
 
-
-# 아래의 코드는 수정하지 않습니다.
+  
 if __name__ == '__main__':
     """
     popular 영화목록을 정렬하여 평점순으로 5개 영화 반환

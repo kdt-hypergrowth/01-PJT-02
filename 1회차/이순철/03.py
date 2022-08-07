@@ -5,6 +5,21 @@ from pprint import pprint
 def ranking():
     pass 
     # 여기에 코드를 작성합니다.  
+    url = f'https://api.themoviedb.org/3/movie/popular?api_key=a275979c03887da2638b3b3aabee6ccf&language=ko'    
+    respon = requests.get(url)
+    data = respon.json()    
+    avg5 = [] 
+    n = []
+    
+    for i in (data.get('results')): 
+      n.append(i.get('vote_average')) # 평점을 리스트(n)에 모음
+    n_list = sorted(n) # 평점들을 순차 정렬 
+    n_list.reverse()  # 리버스 
+    # print(n_list)
+    for i in (data.get('results')):         # 다시 반복문 돌면서
+      if i.get('vote_average') >= n_list[4]:    # 평점을 리스트 n_list[4]값과 비교하여 리스트 추가
+        avg5.append(i)
+    return  avg5
 
 
 # 아래의 코드는 수정하지 않습니다.

@@ -4,8 +4,41 @@ from pprint import pprint
 
 def ranking():
     pass 
-    # 여기에 코드를 작성합니다.  
+    # 여기에 코드를 작성합니다.
+    BASE_URL = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+    params = {
+        'api_key' : '2493cbf091c3129450beca0dc74b2470',
+        'language' : 'ko-KR'
+    }
 
+    response = requests.get(BASE_URL + path, params = params).json()
+    popular_dict = {}
+    
+    for i in range(0, len(response.get('results'))):
+      popular_dict[response.get('results')[i].get('title')] = response.get('results')[i].get('vote_average')
+
+    sorted_list = sorted(popular_dict.items(), key = lambda x: x[1], reverse = True)
+    result_list = []
+
+    for i in range(0, len(response.get('results'))):
+      if response.get('results')[i].get('title') == sorted_list[0][0]:
+        result_list.append(response.get('results')[i])
+    for i in range(0, len(response.get('results'))):
+      if response.get('results')[i].get('title') == sorted_list[1][0]:
+        result_list.append(response.get('results')[i])
+    for i in range(0, len(response.get('results'))):
+      if response.get('results')[i].get('title') == sorted_list[2][0]:
+        result_list.append(response.get('results')[i])
+    for i in range(0, len(response.get('results'))):
+      if response.get('results')[i].get('title') == sorted_list[3][0]:
+        result_list.append(response.get('results')[i])
+    for i in range(0, len(response.get('results'))):
+      if response.get('results')[i].get('title') == sorted_list[4][0]:
+        result_list.append(response.get('results')[i])
+    
+    
+    return result_list
 
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':

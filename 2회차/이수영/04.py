@@ -1,13 +1,33 @@
 import requests
 from pprint import pprint
 
-
 def recommendation(title):
-    pass 
-    # 여기에 코드를 작성합니다.  
+    BASE_URL = 'https://api.themoviedb.org/3'
+    path = '/search/movie'
+    params = {
+        'api_key':'dcc1e7ed069f7427a2816e92b32e7c8b',
+        'language': 'ko-KR',
+        'query': title
+        }
+    response = requests.get(BASE_URL+path, params = params).json()
+    movies = response.get('results')
+    if movies ==[]:
+        result = 'none'
+    else:
+        first_id = movies[0]['id']
+        path_2 = f'/movie/{first_id}/recommendations'
+        params = {
+            'api_key':'dcc1e7ed069f7427a2816e92b32e7c8b',
+            'language': 'ko-KR'
+            }
+        response = requests.get(BASE_URL+path_2, params = params).json()
+        movies = response.get('results')
+        result = []
+        for movie in movies:
+            result.append(movie['title'])
+        return result  
 
-
-# 아래의 코드는 수정하지 않습니다.
+    
 if __name__ == '__main__':
     """
     제목에 해당하는 영화가 있으면 해당 영화의 id를 기반으로 추천 영화 목록 구성

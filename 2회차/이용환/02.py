@@ -5,7 +5,16 @@ from pprint import pprint
 def vote_average_movies():
     pass 
     # 여기에 코드를 작성합니다.  
-
+    URL = 'https://api.themoviedb.org/3'
+    movie = '/movie/popular'
+    params = { 'api_key' : '896988be1c1bb3801b7d75f69bd7b9a5', 'language' : 'ko-KR'}
+    result = requests.get(URL+movie, params = params).json()
+    data = result['results']
+    vote = []
+    for i in range(len(data)):
+      if data[i]['vote_average'] >= 8: # 평점 8점 이상인 결과만 vote에 추가
+        vote.append(data[i])
+    return vote
 
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':

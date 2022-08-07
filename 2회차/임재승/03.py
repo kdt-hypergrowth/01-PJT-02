@@ -1,9 +1,22 @@
+from operator import itemgetter
 import requests
 from pprint import pprint
 
 
 def ranking():
-    pass 
+    movie = []
+    Base_URL = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+    params = {
+        'api_key' : '036cba43a53da3f3d64b768b2cc83862',
+        'language' : 'ko-KR'
+    }
+    response = requests.get(Base_URL + path, params=params).json()
+    data = sorted(response.get('results'), key=itemgetter('vote_average'), reverse = True)
+    # data리스트에 담겨있는 0이상 5미만 데이터를 넣어준다.
+    for idx in range(len(data[0:5])):
+        movie.append(data[idx])
+    return movie
     # 여기에 코드를 작성합니다.  
 
 

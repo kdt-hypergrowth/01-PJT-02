@@ -1,10 +1,28 @@
 import requests
 from pprint import pprint
 
-
+#1. 'vote_average' 값을 높은순으로 정렬
+#2. 5번까지만 순회하면 값 추출
 def ranking():
-    pass 
-    # 여기에 코드를 작성합니다.  
+
+  base_URL = 'https://api.themoviedb.org/3'
+  path = '/movie/popular'
+  params = {
+      'api_key' : '7506ce2e3f3a4cad52958b2c8f243e2e'
+
+
+      }
+  response = requests.get(base_URL+path, params=params).json()
+  
+  data = response.get('results')
+  print(type(data))
+
+  result = sorted(data,key = lambda x : (-x['vote_average']))
+  
+  a = result[0:5]
+  return a
+ 
+
 
 
 # 아래의 코드는 수정하지 않습니다.

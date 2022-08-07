@@ -1,10 +1,28 @@
+from operator import truediv
 import requests
 from pprint import pprint
 
 
 def vote_average_movies():
     pass 
-    # 여기에 코드를 작성합니다.  
+    basic_URL = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+
+    params = {
+    'api_key' : 'ad5c1c30a5c68049f7bbc44e0db0c63a',
+    'language': 'ko-Kr'
+    }
+    
+    gradePoint=[]
+
+    response = requests.get(basic_URL+path,params=params).json()
+    resultValue = response.get('results')
+    for i in resultValue:
+      if i.get('vote_average') >=8:
+        gradePoint.append(i)
+
+
+    return gradePoint
 
 
 # 아래의 코드는 수정하지 않습니다.

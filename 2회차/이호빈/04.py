@@ -1,10 +1,39 @@
+from urllib import response
 import requests
 from pprint import pprint
 
 
 def recommendation(title):
-    pass 
-    # 여기에 코드를 작성합니다.  
+    url = 'https://api.themoviedb.org/3'
+    path = '/search/movie'
+    params = {
+        'api_key': '57289526949f876f1e243aee06612c5f',
+        'language': 'ko-KR',
+        'query' : f'{title}'
+    }
+    rec_list = [] #결과값 담을 리스트
+    response = requests.get(url + path, params = params).json()
+    # 값이 존재하지 않으면 None 리턴
+    if response.get('results') == []:
+        return None
+    else:
+        # 첫번째 영화 id 뽑아낸다
+        result_id = response.get('results')[0].get('id')
+        url2 = f"/movie/{result_id}/recommendations"
+        response2 = requests.get(url + url2, params = params).json()
+        result_id_2 = response2.get('results')
+        # 제목만 추출해서 list에 삽입
+        for movie in result_id_2:
+            rec_list.append(movie.get('title'))
+
+        return rec_list
+        
+
+
+
+    
+
+
 
 
 # 아래의 코드는 수정하지 않습니다.

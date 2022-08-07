@@ -1,10 +1,54 @@
 import requests
 from pprint import pprint
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
+API_KEY_TOKEN = os.getenv('my_api_key')
 
 def recommendation(title):
     pass 
-    # 여기에 코드를 작성합니다.  
+    # 여기에 코드를 작성합니다.
+    BASE_URL = 'https://api.themoviedb.org/3'
+    path = '/search/movie'
+    params = {
+        'api_key': API_KEY_TOKEN,
+        'language': 'ko-KR',
+        'query': title
+    }
+
+    response = requests.get(BASE_URL+path, params=params).json() 
+    result = response.get('results')
+    
+    # 영화 이름 검색 결과 없을 시, None 반환
+    if result == []:
+        return None
+    
+    # 영화 이름 검색 첫번째 결과의 id 값
+    res_id = result[0].get('id')
+    movie_id = res_id
+    
+    BASE_URL2 = 'https://api.themoviedb.org/3'
+    path2 = f'/movie/{movie_id}/recommendations'
+    params2 = {
+        'api_key': 'f813cc9773fb55369f6d3e1dae17ba81',
+        'language': 'ko-KR',
+        'query': title
+    }
+    
+    response_for_recommend = requests.get(BASE_URL2+path2, params=params2).json()
+    result_for_recommend = response_for_recommend.get('results')
+    
+    titles_for_recommend = []
+    
+    for result in result_for_recommend:
+        titles_for_recommend.append(result.get('title'))
+        
+    if titles_for_recommend == []:
+        return []
+    else:
+        return titles_for_recommend
+     
 
 
 # 아래의 코드는 수정하지 않습니다.

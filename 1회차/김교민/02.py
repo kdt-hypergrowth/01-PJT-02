@@ -1,3 +1,4 @@
+from re import I
 import requests
 from pprint import pprint
 
@@ -5,6 +6,20 @@ from pprint import pprint
 def vote_average_movies():
     pass 
     # 여기에 코드를 작성합니다.  
+    vote8 = [] #평점이 8점이상인 영화 목록을 출력시키기 위한 리스트를 새로 만든다.
+    url = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+    params = {
+        'api_key': '42259abc0f3225655eba5deb9d51f7f3',
+        'language': 'ko-KR'
+    }
+    re = requests.get(url+path, params=params).json()
+    movie = re.get('results')
+    for vote in movie:
+      average = vote.get('vote_average') #'results'에서 평균평점을 가져온다
+      if average >= 8: #평균 평점이 8이상일 경우
+        vote8.append(vote) #만들어놓은 그릇에 담는다.
+    return vote8
 
 
 # 아래의 코드는 수정하지 않습니다.

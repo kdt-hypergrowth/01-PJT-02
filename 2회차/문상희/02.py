@@ -5,6 +5,31 @@ from pprint import pprint
 def vote_average_movies():
     pass 
     # 여기에 코드를 작성합니다.  
+    BASE_URL = f'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+    params = {
+        'api_key': 'e3ebcaf0cb86336e3fa61579f1f0569b',
+        'language': 'ko-KR'
+    }
+    # 다른것은 01번과 동일하나 출력값이 한글이었기에 language 정보를 추가해준다.
+
+    res = requests.get(BASE_URL+path, params).json()
+    results = res['results']
+    good_movies =[]
+    # 결과 출력 값이 리스트 이므로 필요한 정보를 모아줄 빈 리스트를 작성한다.
+    for i in results:
+      # results의 항목들을 차례대로 훑는다.
+        if type(i) == dict:
+          # 딕셔너리 타입의 항목을 선별한다.
+            points = i.get('vote_average')
+            if points >= 8:
+              # 관객 평점이 8점 이상인 영화들을 걸러준다
+                good_movies.append(i)
+                # 최종 선택된 영화의 정보들을 앞서 만든 good_movies 리스트에 추가해준다.
+
+    return good_movies
+    # 평점 8점 이상 영화들을 모은 리스트값을 반환해준다.
+
 
 
 # 아래의 코드는 수정하지 않습니다.

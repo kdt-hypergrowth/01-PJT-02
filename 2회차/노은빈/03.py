@@ -3,9 +3,24 @@ from pprint import pprint
 
 
 def ranking():
-    pass 
     # 여기에 코드를 작성합니다.  
+    base_url = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+    params = {
+        'api_key' : '8b431f95b8d1aca3b694e017ecd9c4fb',
+        'language' : 'ko-KR'
+    }
 
+    response = requests.get(base_url + path, params=params).json()
+    sort_response = sorted(response['results'], key = lambda item : item['vote_average'])
+    #sorted(a,key=lambde x:x[0] = 오름차순 정렬)
+
+    lst = []   #결과값을 넣기 위해 새 리스트 만들기
+    for i in sort_response: 
+      lst. append(i)   #lst에 i 추가- 모든 정보 불러오기 위해서
+      if len(lst) == 5 :  #5개를 세면
+        break   # while문 멈춤
+    return lst   #lst 결과 반환
 
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':

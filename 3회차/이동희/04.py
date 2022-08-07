@@ -1,11 +1,38 @@
-import requests
+import requests as r
 from pprint import pprint
+from dotenv import load_dotenv
+import os 
 
+load_dotenv()
 
 def recommendation(title):
     pass 
     # 여기에 코드를 작성합니다.  
-
+    base_url = 'https://api.themoviedb.org/3'
+    path = '/search/movie'
+    params = {
+        'api_key': os.environ.get('api_key'),
+        'language': 'ko-KR',
+        'query': {title}
+    }
+    response = r.get(base_url+path, params=params).json()
+    response = response['results']
+    
+    try:
+        movie_id = ((response[0])['id'])
+        recommend_path = f'/movie/{movie_id}/recommendations'
+        recommend_params = {
+            'api_key': os.environ.get('api_key'),
+            'language': 'ko-KR'
+        }
+        movie = r.get(base_url+recommend_path, params=recommend_params).json()
+        movie = movie['results']
+        recommend_list = []
+        for title in movie:
+            recommend_list.append(title['title'])
+        return recommend_list
+    except:
+        return None
 
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':

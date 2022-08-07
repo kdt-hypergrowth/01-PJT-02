@@ -1,11 +1,37 @@
 import requests
 from pprint import pprint
 
-
 def credits(title):
-    pass 
-    # 여기에 코드를 작성합니다.  
-
+    BASE_URL = f'https://api.themoviedb.org/3'
+    path = '/search/movie'
+    params = {
+        'api_key': '5ddd1a3a8b4aeb5b2822e27f6b6231ef',
+        'language': 'ko-KR',
+        'query' : title
+    }
+    params2 = {
+        'api_key': '5ddd1a3a8b4aeb5b2822e27f6b6231ef',
+        'language': 'ko-KR'
+    }
+    try:
+        response = requests.get(BASE_URL+path, params=params).json()
+        movie_id = response.get('results')[0].get('id')
+        path2 = '/movie/'+str(movie_id)+'/credits'
+        response2 = requests.get(BASE_URL+path2, params=params2).json()
+        cast1 = response2.get('cast')
+        crew1 = response2.get('crew')
+        cast = []
+        crew = []
+        rst = {'cast': cast, 'crew': crew}
+        for i in cast1:
+            if i.get('cast_id') < 10:
+                cast.append(i.get('name'))
+        for i in crew1:
+            if i.get('department') == 'Directing':
+                crew.append(i.get('name'))
+        return rst
+    except:
+        return None
 
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':

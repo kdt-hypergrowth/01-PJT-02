@@ -3,8 +3,21 @@ from pprint import pprint
 
 
 def ranking():
-    pass 
-    # 여기에 코드를 작성합니다.  
+    BASE_URL = 'https://api.themoviedb.org/3'
+    path = '/movie/popular' # 상세경로
+    params = {
+        'api_key': '3b6818af52c899a45712c6e71f6ecc94',
+        'language': 'ko-KR'
+    }
+    response = requests.get(BASE_URL+path, params=params).json() # 인기영화 정보를 response에 넣어준다. 
+
+    top_list = []                                                # 리스트를 만든다. 
+    top_list = sorted(response.get('results'), key = lambda x: x['vote_average'], reverse=True)
+                                                                 # 인기영화정보의 results 값을 가져온다. 
+                                                                 # result의 vote_average를 x에 넣는다. 
+                                                                 # 내림차순으로 정렬한다. 
+    return top_list[1:6]                                         # 정렬한 리스트의 1 - 5의 값을 반환한다. 
+    
 
 
 # 아래의 코드는 수정하지 않습니다.
@@ -13,7 +26,7 @@ if __name__ == '__main__':
     popular 영화목록을 정렬하여 평점순으로 5개 영화 반환
     (주의) popular 영화목록의 경우 시기에 따라 아래 예시 출력과 차이가 있을 수 있음
     """
-    pprint(ranking())
+    pprint(ranking())                                            # 1 - 5번째의 리스트 값을 반환한 함수를 출력한다. 
     """
     [{'adult': False,
       'backdrop_path': '/odJ4hx6g6vBt4lBWKFD1tI8WS4x.jpg',

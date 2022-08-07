@@ -1,11 +1,22 @@
 import requests
 from pprint import pprint
 
-
 def ranking():
-    pass 
-    # 여기에 코드를 작성합니다.  
-
+  pass 
+# 여기에 코드를 작성합니다.
+# 인기영화 목록 중 평점이 높은 순으로 5개의 정렬
+# 평점 = vote_average
+# 정렬시 sorted 함수의 key를 활용  
+  BASE_URL = 'https://api.themoviedb.org/3'
+  path = '/movie/popular'
+  params = {
+  'api_key': '474c622ef9ff33b07a0bac17dd3e0ff2',
+  'language': 'ko-KR'
+  }
+  response = requests.get(BASE_URL+path, params=params).json()['results']
+  movie_ranking = sorted(response, key=lambda response : (response['vote_average']), reverse= True)
+    # sorted를 이용해 vote average의 값의 내림차순으로 정렬
+  return movie_ranking[0:5] # 1~5위의 영화만 반환
 
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':

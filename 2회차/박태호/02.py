@@ -3,7 +3,25 @@ from pprint import pprint
 
 
 def vote_average_movies():
-    pass 
+    BASE_URL = 'https://api.themoviedb.org/3'
+
+    path = '/movie/popular'
+    params = {
+        'api_key': '5b0bce187b00bc7d98febf5046458596',
+           }
+
+    response = requests.get(BASE_URL+path,params = params).json()   #요청한 것을 get(주소, 키)으로 받을건데 이것을 json형식으로 가져옴  
+    result_list = []
+    for i in range(len(response.get('results'))):   # 전체 리스트 타입이며 그 안에 있는 딕셔너리를 순회할 예정 
+      result = response.get('results')[i].get('vote_average') # 딕셔너리에서 평점(키) 자료의 값을 result변수에 할당
+      if int(result) >= 8:                                    # 평점이 8이상이면 참
+        result_list.append(response.get('results')[i])       # 평점 8점 이상은 리스트에 딕셔너리 저장 저장   
+
+
+    return result_list
+   
+
+    
     # 여기에 코드를 작성합니다.  
 
 

@@ -1,11 +1,22 @@
 import requests
 from pprint import pprint
 
+url = 'https://api.themoviedb.org/3'
+path = '/movie/popular'
+params = {
+    'api_key': '26eaac93f79c23ac640e6c7c91fb93af',
+    'language': 'ko-KR'
+}
 
 def ranking():
-    pass 
-    # 여기에 코드를 작성합니다.  
+    title_list = []
+    response = requests.get(url+path, params=params).json()
+    for data in response.get('results'):
+        title_list.append(data)
+    
+    sorted_list = sorted(title_list, key= lambda i: i["vote_average"], reverse = True)
 
+    return sorted_list[:5]
 
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':

@@ -1,11 +1,50 @@
 import requests
 from pprint import pprint
 
+def search(title):
+    movie_id=None
+    base_url='https://api.themoviedb.org/3'
+    path='/search/movie'
+    prams = {
+                    'api_key' : '{#본인이 인증받은 api key 넣기}',
+                    'language': 'ko-KR', 
+                    'query': f'{title}'}
+    res=requests.get(base_url+path, params=prams) 
+    if res == None:
+         return None
+    else:
+        data = res.json()
+        results=data.get('results')
+        for _ in range(len(results)):
+            movie_id=results[0].get("id")
+        return movie_id
 
 def credits(title):
     pass 
+    movie_id=search(title)
+    if movie_id == None:
+         return None
+    base_url='https://api.themoviedb.org/3'
+    path=f'/movie/{movie_id}/credits'
+    prams = {
+                    'api_key' :'{#본인이 인증받은 api key 넣기}',
+                    'language': 'ko-KR', 
+                    }
     # 여기에 코드를 작성합니다.  
-
+    res=requests.get(base_url+path, params=prams)
+    if res == None:
+         return None
+    data = res.json()
+    cast=data.get("cast")
+    crew=data.get("crew")
+    return_data={"cast":[],"crew":[]}
+    for baewoo in cast:
+        if baewoo.get('cast_id')<10:
+            return_data["cast"].append((baewoo.get('name')))
+    for staff in crew:
+        if staff.get('department')== "Directing":
+            return_data["crew"].append(staff.get('name'))
+    return(return_data)
 
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':

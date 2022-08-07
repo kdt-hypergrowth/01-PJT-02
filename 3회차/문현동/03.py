@@ -1,10 +1,38 @@
+import os
 import requests
 from pprint import pprint
+from dotenv import load_dotenv
+
 
 
 def ranking():
-    pass 
-    # 여기에 코드를 작성합니다.  
+  
+    load_dotenv(verbose = True)
+    api_key = os.getenv('api_key')
+    base_url = os.getenv('base_url')
+    population_path = "/movie/popular"
+    
+    payload =\
+    {
+      "api_key" : api_key,
+      "language" : "ko-KR"
+    }
+    
+    
+    
+    response = requests.get(url = base_url + population_path, params = payload).json()
+        
+    sorted_movie_info_list = []
+    
+    for movie_info in response.get("results"):
+      print(movie_info.get("vote_average"))
+      
+      sorted_movie_info_list = sorted(response.get("results"), key = lambda movie_info : movie_info["vote_average"], reverse = True)
+      # 위 코드를 한글로 번역하면 이렇다.
+      # 정렬된 리스트 = 정렬값을 반환 (리스트 전체에 대해서, 키는 람다함수의 반환값이고 람다함수는 영화정보를 인자로 받았을 때 그 영화정보의 평점을 값으로 가짐, 내림차순 = 참)
+      # 즉 영화정보의 평점을 값으로 가지는 키를 기준으로 내림차순 정렬을 한다.
+    
+    return sorted_movie_info_list[:5]
 
 
 # 아래의 코드는 수정하지 않습니다.

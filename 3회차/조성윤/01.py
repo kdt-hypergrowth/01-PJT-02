@@ -1,8 +1,21 @@
 import requests
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
 def popular_count():
-    pass 
+    base_url = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+    params = {
+        'api_key' : os.environ.get('API_KEY'), 
+        'language' : 'ko-KR',
+        'page' : '1'
+    }
+    
+    response = requests.get(base_url+path, params=params).json().get('results')
+    return len(response)
+
     # 여기에 코드를 작성합니다.  
 
 

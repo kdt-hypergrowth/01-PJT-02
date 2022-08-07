@@ -1,10 +1,52 @@
+from ast import Lambda
+from dotenv import load_dotenv
+import os
 import requests
 from pprint import pprint
+
+
+
+
 
 
 def recommendation(title):
     pass 
     # 여기에 코드를 작성합니다.  
+    load_dotenv()
+    
+    API_KEY = os.environ.get('TMDB_API_KEY')
+    Base_Url = 'https://api.themoviedb.org/3'
+
+    path = '/search/movie'
+
+    params = {
+        'api_key': API_KEY,
+        'language': 'ko-KR',
+        'query': title,
+    }
+    res = requests.get(Base_Url+path, params=params).json()
+
+    if res['results']:
+        movie_ID = res['results'][0]['id']
+        path = f'/movie/{movie_ID}/recommendations'
+
+        if 'query' in params:
+            del params['query']
+        res = requests.get(Base_Url + path, params = params).json()
+
+        if res['results']:
+            result = list(map(lambda x: x['title'], res['results']))
+        else:
+            result = []
+
+    else:
+        result = None
+
+    return result
+
+
+
+
 
 
 # 아래의 코드는 수정하지 않습니다.

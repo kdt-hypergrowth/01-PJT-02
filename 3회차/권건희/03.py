@@ -1,9 +1,30 @@
 import requests
 from pprint import pprint
 
+#상위 5개의 영화만 리스트에 들어가 있어야함
+#기준은? vote_average, sort()는 오름차순이 기본이라 .reverse필요할듯
+
 
 def ranking():
-    pass 
+     url='https://api.themoviedb.org/3/movie/popular?api_key=136cf5bd6cbdc37e9588f804c3966f77'
+     response=requests.get(url).json()
+     a=response["results"]
+     a1= sorted(a, key=lambda i: i['vote_average'], reverse=True)
+     c=[]
+
+     for i in range(len(a1)):
+      if len(c)!=5:
+        c.append(a1[i])
+
+
+
+
+     
+     
+    
+
+
+     return c
     # 여기에 코드를 작성합니다.  
 
 

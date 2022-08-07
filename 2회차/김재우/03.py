@@ -1,10 +1,35 @@
-import requests
-from pprint import pprint
+import requests # requests 불러오기
+from pprint import pprint # pprint 불러오기
 
 
-def ranking():
-    pass 
-    # 여기에 코드를 작성합니다.  
+def ranking(): 
+  BASE_URL = 'https://api.themoviedb.org/3' # api 주소..!
+  path = '/movie/popular' # 세부 주소
+  params = {
+    'api_key' : '801b2f9c7a6d8dce6f3bd7f807c9ffc5', # 세부 정보 
+    'language' : 'ko-KR'
+  }
+  
+  response = requests.get(BASE_URL+path, params=params).json() # requests 정보 가져오기
+  movie_list = response.get('results')  # movie_list에 requests 가져온 정보(results) 저장하기!
+  # 평점순으로 만들고 range 사용해서 5개까지 반환하면 끝
+  # movie에 sorted 정렬(movie_list를 , key=lambda 람다로 x:x x를 기준으로'vote_averge'를! reverse=True 이용해서 내림차순 정렬)
+  movie = sorted(movie_list, key=lambda x:x['vote_average'], reverse = True)
+  
+  
+  return movie[:5] # 나오는 리스트 중에 5개까지만 출력!
+  
+  
+  
+  
+  # top5 = []
+
+  # movies = sorted(movie_list, key=lambda x: x['vote_average'], reverse=True)
+  # top5 = movies[:5]
+  # return top5
+  # print(result)
+    
+    
 
 
 # 아래의 코드는 수정하지 않습니다.

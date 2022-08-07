@@ -5,6 +5,14 @@ from pprint import pprint
 def vote_average_movies():
     pass 
     # 여기에 코드를 작성합니다.  
+    url = f'https://api.themoviedb.org/3/movie/popular?api_key=a275979c03887da2638b3b3aabee6ccf&language=ko'    
+    respon = requests.get(url)
+    data = respon.json()    
+    avg8 = [] # 결과값을 리스트로 출력예정
+    for i in (data.get('results')): # 리스트에 있는 딕셔너리를 하나씩 꺼낸다
+      if i.get('vote_average') > 8: # 평점 비교하는 if문과 리스트에 추가
+        avg8.append(i)
+    return  avg8
 
 
 # 아래의 코드는 수정하지 않습니다.

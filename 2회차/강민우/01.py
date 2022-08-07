@@ -1,10 +1,24 @@
 import requests
+from dotenv import load_dotenv
+import os
 
 
-def popular_count():
-    pass 
-    # 여기에 코드를 작성합니다.  
+load_dotenv()
+api_key = os.getenv('api_key')
 
+
+def popular_count(): 
+    URL ='https://api.themoviedb.org/3/'
+    path = 'movie/popular'
+    params = {
+        'api_key':api_key ,
+        'language':'ko-KR'
+    }
+    response = requests.get(URL+path , params = params).json()
+    count = 0
+    for a in response.get('results'):
+        count += 1
+    return count
 
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':

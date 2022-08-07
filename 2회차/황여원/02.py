@@ -1,10 +1,26 @@
 import requests
 from pprint import pprint
 
-
+# 응답 받은 데이터 중 평점(vote_average)이 8점 이상인 영화 목록을 리스트로 반환
 def vote_average_movies():
-    pass 
-    # 여기에 코드를 작성합니다.  
+    BASE_URL = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+    params = {
+         'api_key': 'd1c47d9288b0354c3305720bd5e426e7',
+         'language' : 'ko-KR'        
+     }
+    response = requests.get(BASE_URL+path, params=params).json() 
+    movie = response.get('results')
+    
+    # 빈 리스트를 만들고 
+    popular = []
+    for i in movie:
+        # vote_average가 8점 이상이면 
+        if i['vote_average'] >= 8:
+            # 리스트에 더해준다 
+           popular.append(i)
+    
+    return(popular)
 
 
 # 아래의 코드는 수정하지 않습니다.

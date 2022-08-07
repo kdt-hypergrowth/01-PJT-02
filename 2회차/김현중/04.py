@@ -1,9 +1,22 @@
 import requests
 from pprint import pprint
 
-
 def recommendation(title):
-    pass 
+    try:
+        api_key = '7f612bfdbaa738cd44a88077eead2d22'
+        URL = f'https://api.themoviedb.org/3/search/movie?api_key={api_key}&language=ko-KR&query={title}&page=1&include_adult=false'
+        response = requests.get(URL)
+
+        movie_id = response.json()['results'][0].get('id')
+        URL = f'https://api.themoviedb.org/3/movie/{movie_id}/recommendations?api_key={api_key}&language=ko-KR&page=1'
+        response_r = requests.get(URL)
+
+        result = []
+        for i in range(len(response_r.json()['results'])):
+            result.append(response_r.json()['results'][i]['title'])
+        return result
+    except:
+        return None
     # 여기에 코드를 작성합니다.  
 
 
@@ -18,6 +31,6 @@ if __name__ == '__main__':
     pprint(recommendation('기생충'))
     # ['조커', '1917', '조조 래빗', ..생략.., '살인의 추억', '펄프 픽션']
     pprint(recommendation('그래비티'))
-    # []
+    # # []
     pprint(recommendation('검색할 수 없는 영화'))
     # None

@@ -3,7 +3,23 @@ from pprint import pprint
 
 
 def vote_average_movies():
-    pass 
+  # 빈 리스트를 생성
+    movie = []
+    Base_URL = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+    params = {
+        'api_key' : '036cba43a53da3f3d64b768b2cc83862',
+        'language' : 'ko-KR'
+    }
+    response = requests.get(Base_URL + path, params=params).json()
+
+    # vote_average는 리스트인 response.get('results')에서 가져온 값들(딕셔너리)중에서
+    # 키값이 vote_average인 밸류의 리스트
+    vote_average = (list(vote_average['vote_average'] for vote_average in response.get('results')))
+    for idx in range(len(vote_average)):
+        if vote_average[idx] >=8:
+            movie.append(response.get('results')[idx])
+    return movie
     # 여기에 코드를 작성합니다.  
 
 

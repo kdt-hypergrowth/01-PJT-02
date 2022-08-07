@@ -3,8 +3,30 @@ from pprint import pprint
 
 
 def ranking():
-    pass 
-    # 여기에 코드를 작성합니다.  
+    
+    URL = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+    params = {
+        'api_key' : '85bedf36756745d573166cfee3a12aa5'
+
+    }
+    response = requests.get(URL+path, params = params).json()
+    rankdic = {}
+    cnt = 0
+    for i in response['results']:
+      rankdic[i['vote_average']] = cnt
+      cnt += 1
+    ranklist = list(rankdic.keys())
+    ranklist.sort()
+    rank5list = []
+    for i in range(-1, -6, -1) :
+        rank5list.append(rankdic[ranklist[i]])
+        # pprint(rankdic)
+    result = []
+    for i in rank5list :
+        result.append(response['results'][i])
+    return result
+        
 
 
 # 아래의 코드는 수정하지 않습니다.

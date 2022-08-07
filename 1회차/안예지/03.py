@@ -1,11 +1,32 @@
+import os
+from dotenv import load_dotenv
 import requests
 from pprint import pprint
 
+load_dotenv()
+
+# 인기 영화 목록을 평점이 높은 순으로 5개 정렬하는 데이터 목록을 반환
+# 영화 목록(Get Populations) 데이터를 요청하여 
+# 평점이 높은 영화 5개의 정보를 리스트로 반환하는 함수 작성
 
 def ranking():
-    pass 
-    # 여기에 코드를 작성합니다.  
+      
+    BASE_URL = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+    params = {
+        'api_key': os.getenv('TMDB'),
+        'language' : 'ko-KR'        
+    }
+    
+    response = requests.get(BASE_URL+path, params=params).json()
+    result_list = response['results']
+    sort_list = (sorted(result_list, key = lambda x:-x.get('vote_average')))
+    rank_movie = sort_list[:5]
 
+    return(rank_movie)
+          
+          
+         
 
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':

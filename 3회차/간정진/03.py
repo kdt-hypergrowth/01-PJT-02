@@ -1,11 +1,31 @@
 import requests
 from pprint import pprint
 
+BASE_URL = 'https://api.themoviedb.org/3'
+path = '/movie/popular'
+params = {
+    'api_key' : '385e790f9c3c5a53d55c8b036acb92b4',
+    'language' : 'ko-KR'
+}
 
 def ranking():
     pass 
     # 여기에 코드를 작성합니다.  
+    response = requests.get(BASE_URL+path, params=params).json() 
+    # 영화 데이터를 담고 있는 곳
+    movie_results = response.get('results')
+    # print(movie_results)
 
+    # 정렬시 sorted 함수의 key를 활용 ==> Lambda
+    movie_results_sort = sorted(movie_results, key = lambda x: x['vote_average'], reverse=True)
+    # vote_average 8.4 ~ ... ~ 5.4
+    # print(movie_results_sort)
+    # vote_average 8.4 ~ ... ~ 7.9
+    movie_results_sort_5 = movie_results_sort[:5]
+    return movie_results_sort_5
+    # movie_results_sort = sorted(movie_results)
+    # movie_results_sort_5 = movie_results_sort[:5]
+    # print(movie_results_sort_5)
 
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':

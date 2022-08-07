@@ -3,8 +3,33 @@ from pprint import pprint
 
 
 def vote_average_movies():
-    pass 
-    # 여기에 코드를 작성합니다.  
+  # 평점 8이상인 영화 목록을 담는 리스트 초기화
+    vote_average_movies_over_8 =[]
+    # UMLMaket 클래스의 인스턴스 생성
+    BASE_URL = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+
+    params = {
+        'api_key' : '143e53e7e83b57a0c8376b3020cd5051',
+        'language': 'ko'
+    }
+    # url를 통해 서버에 요청해서 응답받고, json타입 데이터를 dictionary타입으로 바꿔 변수에 저장
+    response = requests.get(BASE_URL+path, params=params).json() 
+    # 영화 데이터를 담고 있는 results를 받아오기
+    movie_datails = response.get('results')
+    
+    # 반복문
+    for movie_detall in movie_datails:
+      # 개별 영화 평점 확인
+      vote_average = movie_detall.get('vote_average')
+      # 8점 이상인 경우 해당 정보를 담는다.
+      if vote_average >= 8:
+        vote_average_movies_over_8.append(movie_detall)
+
+    return vote_average_movies_over_8
+
+
+
 
 
 # 아래의 코드는 수정하지 않습니다.

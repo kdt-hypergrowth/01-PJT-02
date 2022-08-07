@@ -1,12 +1,31 @@
 import requests
+import json
 from pprint import pprint
 
 
 def ranking():
-    pass 
-    # 여기에 코드를 작성합니다.  
+    base_url = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
 
 
+    params = {
+       'api_key' : 'de3d5824ffe66b5d535f7edae4d285d6',
+       'language' : 'ko',
+    }
+    res = requests.get(base_url+path, params=params)
+    data = res.json()
+    
+    tmp=data['results']
+    
+    d = sorted(tmp, key=lambda x : x['vote_average'],reverse = True)
+        
+    
+    arr = d[0:5]
+    
+    return arr
+            
+            
+            
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':
     """

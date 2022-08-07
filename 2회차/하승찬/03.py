@@ -1,11 +1,23 @@
+from ast import Lambda
 import requests
 from pprint import pprint
 
 
 def ranking():
     pass 
-    # 여기에 코드를 작성합니다.  
+      # 여기에 코드를 작성합니다.  
+    base_url ='https://api.themoviedb.org/3'
+    path = '/movie/popular'
+    params ={
+            'api_key' : '9c84ae21c51581335eb9aca74793ddb9',
+            'language' : 'ko-KR'
+    }
 
+    response = requests.get(base_url+path,params=params).json()
+
+    r = response.get('results')
+    slistm = sorted(r, key=lambda x: x['vote_average'],reverse=True)
+    pprint (slistm[0:5])
 
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':

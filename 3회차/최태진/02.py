@@ -1,10 +1,43 @@
 import requests
-from pprint import pprint
+from pprint import pprint 
 
+    
 
 def vote_average_movies():
-    pass 
-    # 여기에 코드를 작성합니다.  
+    base_URL = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+    params = {
+        'api_key' : '7506ce2e3f3a4cad52958b2c8f243e2e'
+
+    }
+
+    response = requests.get(base_URL+path, params=params).json()
+    
+    temp_dict = []
+    data = response.get('results')
+    print(type(data[0]))
+    #리스트의 인덱스에 하나씩 접근
+    #각 인덱스는 딕셔너리로 구성
+    #.get을 활용 원하는 키에 접근해 값을 비교 후 해당되는 것만 추출
+    for i in data :
+      if i.get('vote_average') >= 8.0 :
+        temp_dict.append(i)
+    print(len(temp_dict))
+    return temp_dict
+      
+
+    
+    cnt = 0
+    # for i in data[cnt].keys() :
+    #     if data[cnt]['vote_average'] >= 8:
+    #       data = data[cnt]
+    #       cnt +=1
+    
+    # for j in data[]['vote_average']:
+    #   if j >= 8:
+    #     return data[]
+
+
 
 
 # 아래의 코드는 수정하지 않습니다.
@@ -35,3 +68,5 @@ if __name__ == '__main__':
     ..생략..,
     }]
     """
+
+  

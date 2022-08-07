@@ -1,9 +1,37 @@
 import requests
+import os
 from pprint import pprint
+from dotenv import load_dotenv
 
+load_dotenv()
 
 def recommendation(title):
-    pass 
+    base_url = 'https://api.themoviedb.org/3'
+    search_path = '/search/movie'
+    search_params = {
+        'api_key' : os.environ.get('API_KEY'), 
+        'language' : 'ko-KR',
+        'page' : '1',
+        'query' : title,
+        'include_adult' : False
+    }
+
+    search_response = requests.get(base_url+search_path, params=search_params).json().get('results')
+    if len(search_response) == 0 :
+        return None
+
+    search_responese_first = search_response.pop(0).get('id')
+
+    recommend_path = f'/movie/{search_responese_first}/recommendations'
+    recommend_params = {
+        'api_key' : os.environ.get('API_KEY'), 
+        'language' : 'ko-KR',
+        'page' : '1',
+    }
+    recommend_response = requests.get(base_url+recommend_path, params=recommend_params).json().get('results')
+    recommend_titles = [d['title'] for d in recommend_response]
+
+    return recommend_titles
     # 여기에 코드를 작성합니다.  
 
 

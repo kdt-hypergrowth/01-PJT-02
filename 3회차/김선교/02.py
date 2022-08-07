@@ -1,10 +1,20 @@
 import requests
 from pprint import pprint
 
+BASE_URL = f'https://api.themoviedb.org/3'
+path = '/movie/popular'
+params = {
+    'api_key': '5ddd1a3a8b4aeb5b2822e27f6b6231ef',
+    'language': 'ko-KR'
+}
 
 def vote_average_movies():
-    pass 
-    # 여기에 코드를 작성합니다.  
+  rst = []
+  response = requests.get(BASE_URL+path, params=params).json()
+  for i in range(len(response.get('results'))): # 리스폰스의 리절트 값 중에서
+    if response.get('results')[i].get('vote_average') > 8: # 평점 8 이상이면
+      rst.append(response.get('results')[i]) # rst 리스트에 넣어라
+  return rst
 
 
 # 아래의 코드는 수정하지 않습니다.

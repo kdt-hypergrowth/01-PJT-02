@@ -3,8 +3,31 @@ from pprint import pprint
 
 
 def credits(title):
-    pass 
-    # 여기에 코드를 작성합니다.  
+    
+    URL = 'https://api.themoviedb.org/3'
+    path = '/search/movie'
+    params = {
+        'api_key' : '85bedf36756745d573166cfee3a12aa5',
+        'query' : title
+    }
+    response = requests.get(URL+path, params = params).json()
+    if response['results'] == [] :
+        return
+    # print(response)
+    mvid = response['results'][0]['id'] 
+    path2 = '/movie/'+str(mvid)+'/credits'
+    response2 = requests.get(URL + path2, params = params).json()
+    resultdic = {'cast' : [], 'crew' : []}
+    for i in response2['cast'] :
+        if i['cast_id'] < 10 :
+            resultdic['cast'].append(i['name'])
+    for j in response2['crew'] :
+        if j['department'] == 'Directing' :
+            resultdic['crew'].append(j['name'])
+
+    return resultdic
+    
+
 
 
 # 아래의 코드는 수정하지 않습니다.

@@ -4,9 +4,24 @@ from pprint import pprint
 
 def ranking():
     pass 
-    # 여기에 코드를 작성합니다.  
+    vote_average_movies_top5 = []
+    BASE_URL = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+    params = {
+        'api_key': '',
+        'language': 'ko-KR'
+}
+    response = requests.get(BASE_URL+path, params=params).json()
+    movie_details = response.get('results',None)
 
+    # 5. lambda 활용하여 movie_details의 `vote_average`순으로 정렬된 딕셔너리를 리스트에 할당
+    movie_details_by_vote_avg = sorted(movie_details, key=lambda x: x['vote_average'], reverse=True)
+    # 6. 정렬된 딕셔너리에서 앞에 5개 값만 가져오기
+    vote_average_movies_top5 = movie_details_by_vote_avg[:5]
 
+    # 7. 높은 평점 영화 5개 순으로 출력
+    return vote_average_movies_top5
+    
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':
     """

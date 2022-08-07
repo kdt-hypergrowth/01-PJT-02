@@ -1,11 +1,23 @@
 import requests
 from pprint import pprint
-
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 def ranking():
-    pass 
-    # 여기에 코드를 작성합니다.  
-
+    URL = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+    params = {
+        'api_key': os.environ.get('api_key'),
+        'language': 'ko-KR'
+    }
+    response = requests.get(URL+path, params=params).json()
+    movie = response.get('results')
+    
+    vote = sorted(movie, key= lambda movie: movie['vote_average'], reverse=True)
+    return(vote[0:5])
+    
+    #todo 리스트 정렬 후 슬라이싱
 
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':

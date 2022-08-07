@@ -1,8 +1,21 @@
+from urllib import response
 import requests
 
 
 def popular_count():
-    pass 
+    #0de00acda6081b7131fa382c50d91123
+    URL = 'https://api.themoviedb.org/3/movie/popular'
+    params = {
+        'api_key' : '0de00acda6081b7131fa382c50d91123',
+        'language' : 'ko-KR'
+        
+    }
+    response = requests.get(URL, params=params).json()
+    a = len(response.get('results'))
+    return a
+    
+    
+    
     # 여기에 코드를 작성합니다.  
 
 

@@ -1,9 +1,37 @@
+from http.client import responses
+from urllib import response
 import requests
 from pprint import pprint
 
 
 def recommendation(title):
-    pass 
+    # search 주소를 입력
+    base_url = 'https://api.themoviedb.org/3'
+    path = '/search/movie'
+    params = {
+        'api_key' : '5b0bce187b00bc7d98febf5046458596', # my key
+        'language' : 'ko-kr', #한국어
+        'query' : title # 이거 필수 사항임
+    }
+
+    res = requests.get(base_url+path, params = params).json()
+    # 해당 주소에 값을 json형식으로 요청하여 받아옴
+    
+    # return result
+    try :
+        result = res.get('results')[0].get('id')
+        path = f'/movie/{result}/recommendations' # 검색할 곳 주소
+        res2 = requests.get(base_url+path, params = params).json()
+        result2 = res2.get('results') # list안에있는 dic형태의 영화 정보들에 접근했다.
+        recom_t = []
+        for i in range(len(result2)):
+            title = result2[i].get('title')
+            recom_t.append(title)
+        return recom_t
+    except IndexError:
+        return None
+
+    
     # 여기에 코드를 작성합니다.  
 
 

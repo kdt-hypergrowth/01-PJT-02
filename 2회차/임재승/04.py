@@ -3,7 +3,34 @@ from pprint import pprint
 
 
 def recommendation(title):
-    pass 
+    # 검색할 수 없는 영화로 인해 오류가 발생하기에 트라이 익셉션 사용
+    try:
+        Base_URL = 'https://api.themoviedb.org/3'
+        path = '/search/movie'
+        params = {
+            'api_key' : '036cba43a53da3f3d64b768b2cc83862',
+            'language' : 'ko-KR',
+            'query' : title
+        }
+        response = requests.get(Base_URL + path, params=params).json()
+        m_id = response.get('results')[0].get('id')
+        
+        path2 = f'/movie/{m_id}/recommendations'
+        params_2 = {
+            'api_key' : '036cba43a53da3f3d64b768b2cc83862',
+            'language' : 'ko-KR'
+        }
+        response2 = requests.get(Base_URL + path2, params=params_2).json()
+        recommend = []
+        for idx in response2.get('results'):
+            recommend.append(idx.get('title'))
+        return recommend
+    # 검색결과 일치하는 영화가 없을때 IndexError: list index out of range 에러 발생
+    # IndexError에러를 예외처리 
+    except IndexError:
+        return None
+    
+
     # 여기에 코드를 작성합니다.  
 
 
@@ -18,6 +45,6 @@ if __name__ == '__main__':
     pprint(recommendation('기생충'))
     # ['조커', '1917', '조조 래빗', ..생략.., '살인의 추억', '펄프 픽션']
     pprint(recommendation('그래비티'))
-    # []
+    # # []
     pprint(recommendation('검색할 수 없는 영화'))
     # None

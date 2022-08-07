@@ -1,10 +1,30 @@
+#02. 특정 조건에 맞는 인기 영화 조회
+
 import requests
 from pprint import pprint
 
 
 def vote_average_movies():
-    pass 
-    # 여기에 코드를 작성합니다.  
+
+    base_url = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+    params = {
+    'api_key': '0f810078345847f7d4b6930619626f55', #API값 정의
+    'language': 'ko-KR'
+    }
+    average_movies = []
+    response = requests.get(base_url + path, params = params).json() #url과 API값을 이용하여 요청-> json문서화 해줘 
+    results = response['results'] #받은값에서 결과 딕셔너리값만 추출
+
+    for i in results:
+        if i['vote_average'] >= 8:
+            average_movies.append(i)
+    return average_movies
+
+    
+    
+    
+#여기에 코드를 작성합니다.  
 
 
 # 아래의 코드는 수정하지 않습니다.

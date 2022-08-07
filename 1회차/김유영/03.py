@@ -3,9 +3,27 @@ from pprint import pprint
 
 
 def ranking():
-    pass 
-    # 여기에 코드를 작성합니다.  
+    pass
+    vote_average_top5=[]
+    # UMLMaket 클래스의 인스턴스 생성
+    BASE_URL = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
 
+    params = {
+        'api_key' : '143e53e7e83b57a0c8376b3020cd5051',
+        'language': 'ko'
+    }
+    # url를 통해 서버에 요청해서 응답받고, json타입 데이터를 dictionary타입으로 바꿔 변수에 저장
+    response = requests.get(BASE_URL+path, params=params).json() 
+    # 영화 데이터를 담고 있는 results를 받아오기
+    movie_datails = response.get('results')
+    
+    # sorted함수의 key 람다표현식
+    sorted_movie_vote_avg = sorted(movie_datails, key=lambda x : x['vote_average'])
+   # 정렬된 딕셔너리앞에서 5개 값만 가져오기
+    vote_average_top5 = sorted_movie_vote_avg[:5]
+
+    return vote_average_top5
 
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':

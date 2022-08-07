@@ -1,11 +1,27 @@
 import requests
 from pprint import pprint
-
+from dotenv import load_dotenv
+import os
 
 def vote_average_movies():
-    pass 
-    # 여기에 코드를 작성합니다.  
-
+    load_dotenv()
+    key = os.getenv('80c8b18bf43a69499e913dc21300b23c')
+    BASE_URL = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+    params = {
+    'api_key': '80c8b18bf43a69499e913dc21300b23c',
+    'language': 'ko-KR'
+    }
+    response = requests.get(BASE_URL+path, params=params).json()
+    results = response.get('results')
+    # 딕셔너리에서 results의 값만, results의 type은 <class 'list'> 
+    data = []
+    for i in results:
+      if i.get('vote_average') >= 8:
+        data.append(i)
+        # data = data.append(i)
+        # AttributeError: 'NoneType' object has no attribute 'append' -- append 메서드는 return값으로 None을 돌려준다.
+    return data
 
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':

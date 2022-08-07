@@ -6,6 +6,32 @@ def ranking():
     pass 
     # 여기에 코드를 작성합니다.  
 
+BASE_URL = 'https://api.themoviedb.org/3/'
+path = 'movie/popular'
+params = {
+        'api_key': 'a986250901395deffed1ae6e646ae735',
+        'language': 'ko-KR'
+}
+response = requests.get(BASE_URL+path, params=params).json() # response에 api사이트에서 영화 popular api를 json형식으로 가져옴
+response2 = response.get('results')         # response2에 딕셔너리들중 result만 가져옴
+
+result = []
+
+for i in response2:                                # 평점을 모아서 순서대로 정렬
+  result.append(i['vote_average'])
+  result = sorted(result)       
+
+new_result = []
+for ii in range(1, 6):                              # 평점 상위 5개만 추려서 new_result 만듬
+  new_result.append(result[len(result) - ii ])  
+
+final_result = []
+for iii in response2:                               # new_result에 있는 상위 평점 5개의 점수와 같은 영화를 검색
+  if iii['vote_average'] in new_result:
+    final_result.append(iii)
+
+pprint(final_result) 
+
 
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':

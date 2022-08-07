@@ -1,11 +1,23 @@
+from audioop import reverse
 import requests
 from pprint import pprint
 
 
 def ranking():
-    pass 
+    URL = 'https://api.themoviedb.org/3/movie/popular'
+    params = {
+        'api_key' : '0de00acda6081b7131fa382c50d91123',
+        'language' : 'ko-KR'
+        
+    }
+    response = requests.get(URL, params=params).json()
+    a= response.get('results')
+    b =sorted(a, key = lambda x: x['vote_average'],reverse = True)
+    result = b[0:5]
+    
+    return result
     # 여기에 코드를 작성합니다.  
-
+    
 
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':
@@ -33,5 +45,5 @@ if __name__ == '__main__':
       'vote_average': 8.4,
       'vote_count': 1463},
     ..생략..,
-    }]
+    }]  
     """

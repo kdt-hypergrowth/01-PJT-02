@@ -1,10 +1,28 @@
+from operator import itemgetter
 import requests
 from pprint import pprint
+from dotenv import load_dotenv
+import os
 
+
+load_dotenv()
+APIKEY = os.getenv('APIKEY')   # 환경변수 설정 및 가져오기
 
 def ranking():
-    pass 
-    # 여기에 코드를 작성합니다.  
+    response = requests.get(f'https://api.themoviedb.org/3/movie/popular?api_key={APIKEY}&language=ko-KR').json()
+    # pprint(response)
+    movie_list = response["results"]
+    # print(movie_list)
+    sorted_movie_list = sorted(movie_list, key=itemgetter("vote_average"), reverse=True)
+    # pprint(sorted_movie_list)
+    res = []
+    count = 0
+    for movie in sorted_movie_list:
+      res.append(movie)
+      count += 1
+      if (count == 5):
+        break
+    return res
 
 
 # 아래의 코드는 수정하지 않습니다.

@@ -1,10 +1,19 @@
+# api : 0adf2f22b2273b1be4feadc7dc662e73
+# https://api.themoviedb.org/3/movie/popular?api_key=<<api_key>>&language=en-US&page=1]
+
+# 여기부터 갑자기 어렵게 느껴짐 
+# 어떻게 풀어야할지는 알겠는데 설계가 바로 안나옴(문제점)
 import requests
 from pprint import pprint
 
 
 def recommendation(title):
-    pass 
-    # 여기에 코드를 작성합니다.  
+    Base_url = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+    params = {
+        'api_key':'0adf2f22b2273b1be4feadc7dc662e73',
+        'language':'ko-KR'
+    }
 
 
 # 아래의 코드는 수정하지 않습니다.

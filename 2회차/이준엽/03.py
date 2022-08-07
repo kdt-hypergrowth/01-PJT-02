@@ -5,8 +5,23 @@ from pprint import pprint
 def ranking():
     pass 
     # 여기에 코드를 작성합니다.  
-
-
+    # 인기영화 목록 추출후 리스트에 포함
+    # 인기영화 내림차순 정렬
+    # 인기영화 for 문 사용해서 5번째까지 리스트에 저장
+    URL = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+    params = {
+      'api_key' : '7b4d11acc694dae76c459794c57dd6c4',
+      'language' : 'ko=KR'
+    }
+    
+    r = requests.get(URL+path, params = params).json()
+    results = r.get('results')
+    sorresults = sorted(results, key = lambda x:x['vote_average'],reverse = True)
+    top5 = []
+    for i in range(5):
+      top5.append(sorresults[i])
+    return top5
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':
     """

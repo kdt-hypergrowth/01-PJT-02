@@ -5,7 +5,25 @@ from pprint import pprint
 def ranking():
     pass 
     # 여기에 코드를 작성합니다.  
+    BASE_URL = f'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+    params = {
+        'api_key': 'e3ebcaf0cb86336e3fa61579f1f0569b',
+        'language': 'ko-KR'
+    }
+    
+    res = requests.get(BASE_URL+path, params).json()
+    results = res['results']
+    # 02.py의 과정과 동일
+    a = sorted(results,key=lambda x:x['vote_average'],reverse=True)
+    # 'vote_average'를 기준으로 오름차순 정렬
+    lst = []
+    for i in range(5):
+        lst.append(a[i])
+    # 상위 5개만 출력하므로 0번부터 4번 자리에 위치한 값만으로 리스트를 새로 생성
 
+    return lst
+    # 새로 생성한 리스트 반환
 
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':

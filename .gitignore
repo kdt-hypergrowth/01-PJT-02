@@ -1,3 +1,6 @@
+# api-key 노출 방지를 위해 python-dotenv 모듈 사용
+.env
+
 /실습
 # Created by https://www.toptal.com/developers/gitignore/api/python,macos,windows,visualstudiocode,pycharm
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,macos,windows,visualstudiocode,pycharm
@@ -362,3 +365,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/python,macos,windows,visualstudiocode,pycharm
+
+# TMDB_API_key
+.env

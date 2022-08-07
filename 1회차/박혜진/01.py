@@ -2,8 +2,24 @@ import requests
 
 
 def popular_count():
-    pass 
-    # 여기에 코드를 작성합니다.  
+
+    url = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+    params = {
+        'api_key' : '09a613146a968647b2f3039070613000',
+        'language' : 'ko-KR'
+    }
+
+    response = requests.get(url + path, params=params).json()
+    results = response['results']
+
+    movie_count = 0
+
+    for i in results :
+        if i['id'] != 0 :
+            movie_count += 1
+
+    return movie_count
 
 
 # 아래의 코드는 수정하지 않습니다.

@@ -3,8 +3,56 @@ from pprint import pprint
 
 
 def credits(title):
-    pass 
-    # 여기에 코드를 작성합니다.  
+
+    search_url = 'https://api.themoviedb.org/3/search/movie'
+    search_params = {
+            'api_key' : '09a613146a968647b2f3039070613000',
+            'language' : 'ko',
+            'query' : title,
+            'page' : 1,
+            'include_adult' : 'false'
+        }
+
+    search_response = requests.get(search_url, params=search_params)
+    search_results = search_response.json()['results']
+
+    search_id = []
+
+    try :
+        for i in search_results :
+            search_id.append(i['id'])
+        movie_id = search_id[0]
+    
+    except IndexError :
+        return None
+
+
+    cre_url = f'https://api.themoviedb.org/3/movie/{movie_id}/credits'
+    cre_params = {
+            'api_key' : '09a613146a968647b2f3039070613000',
+            'language' : 'ko',
+        }
+
+    cre_response = requests.get(cre_url, params=cre_params)
+    cre_results = cre_response.json()
+
+    actor_dict = {'cast' : [], 'crew' : []}
+
+    if 'status_code' in cre_results.keys() :
+        return None
+
+    for a in cre_results['cast'] :
+        if a['cast_id'] < 10 :
+            actor_dict['cast'].append(a['name'])
+
+
+    for c in cre_results['crew'] :
+        if c['department'] == 'Directing' :
+            actor_dict['crew'].append(c['name'])
+
+    
+    return actor_dict
+
 
 
 # 아래의 코드는 수정하지 않습니다.

@@ -3,9 +3,20 @@ from pprint import pprint
 
 
 def ranking():
-    pass 
-    # 여기에 코드를 작성합니다.  
+    api_key = 'a709df78a1a09780128430e580888cb9'
+    
+    url = f'https://api.themoviedb.org/3/movie/popular?api_key={api_key}&language=en-US&page=1'
+    response = requests.get(url).json()
+    data = response['results']   
+    new_list = []       # []는 data가 딕셔너리로 구성된 리스트라서, 그걸 평점순으로 정렬한뒤 새로 담아야하니까 만들었다.
+    new_list = sorted(data, key = lambda x : x['vote_average'], reverse = True)[:5] #[-5:][::-1] << 처음엔 이걸썼는데, 알아보니 함수안에 reverse를 쓰면 됐었다. 별 차이 없는것 같다
+    # data 딕셔너리를 분류하는데, key를 기준으로 분류한다. 그 키는 'vote_average' 고, 람다함수를 쓰지않으면 data안의 요소는 그냥 딕셔너리라서 정렬을 할수없는데, (키를 불러올수가없다 !!!!) 람다함수로 
+    # 해결해야하는 문제였다 
 
+    #1시간 반 이상 붙잡고 있던 문제였는데.. sorted() 함수가 key를 기준으로 정렬가능하다는걸 뒤늦게 알아서 한 줄로 풀리는걸 보고 허탈했다..
+
+    return new_list 
+        
 
 # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':

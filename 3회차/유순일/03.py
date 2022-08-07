@@ -3,8 +3,17 @@ from pprint import pprint
 
 
 def ranking():
-    pass 
-    # 여기에 코드를 작성합니다.  
+    BASE_URL = 'https://api.themoviedb.org/3'
+    path = '/movie/popular'
+    params = {
+        'api_key': '167e7ed92eefe4e7dd569b558d9f2e36',
+        'language': 'ko-KR'
+    }
+    res = requests.get(BASE_URL+path, params=params).json()                   
+    result = res.get('results')                                                 # results 라는 key값만 받기위한 코드.
+    res_1 = sorted(result, key=lambda x: -x[('vote_average')])
+    # results안의 목록을 sorted(정렬) 할건데, 'vote_average'의 value값으로 정렬할거고, 역순으로 할거야. # reverse=True 써도 역순됨.
+    return res_1[:5]        # 정렬한 것(res_1)중에 요소[0-4]까지의 값을 반환
 
 
 # 아래의 코드는 수정하지 않습니다.

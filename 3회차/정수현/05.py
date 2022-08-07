@@ -1,10 +1,41 @@
 import requests
 from pprint import pprint
+import json
 
 
 def credits(title):
     pass 
-    # 여기에 코드를 작성합니다.  
+    # 여기에 코드를 작성합니다.
+    url = 'https://api.themoviedb.org/3/'
+    path = 'search/movie'
+    params = {
+        'api_key' : 'd167ae542dc3068ed1ff2d9023caff95',   
+        'query' : title
+    }
+    response = requests.get(url+path, params).json()
+    if response.get('total_pages') == 0:
+        return None
+
+    m_id = response.get('results')[0].get('id')
+    
+    path = f'movie/{m_id}/credits'
+#    del(params['query'])                    # 삭제 안해도 되지 않을까?
+    response2 = requests.get(url+path, params).json()
+
+    cast = []
+    crew = []
+    for i in response2.get('cast'):
+        if i.get('cast_id') < 10:
+            cast.append(i.get('name'))
+    for i in response2.get('crew'):
+        if i.get('department') == 'Directing':
+            crew.append(i.get('name'))
+    result = {
+        'cast' : cast,
+        'crew' : crew
+    }
+
+    return result
 
 
 # 아래의 코드는 수정하지 않습니다.
