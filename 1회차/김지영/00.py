@@ -11,7 +11,7 @@ payment_currency = 'KRW'
 URL = f'https://api.bithumb.com/public/ticker/{order_currency}_{payment_currency}'
 # URL을 통해 order_currency와 payment_currency를 요청해서 response(응답)을 가져온다.
 response = requests.get(URL)
-# print(response,type(response))  # <Response [200]> <class 'requests.models.Response'>
+print(response,type(response))  # <Response [200]> <class 'requests.models.Response'>
 
 # .json으로 jason파일을 파이썬 데이터타입으로 변경
 # print(response.json(), type(response.json()))  # response = {..., 'data' : {..., 'prev_cosing_price' : ~, 

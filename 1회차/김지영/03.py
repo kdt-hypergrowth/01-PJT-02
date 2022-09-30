@@ -13,20 +13,20 @@ def ranking():
   }
   response = requests.get(BASE_URL+path, params=params).json()
   # 일단 vote_average까지 접근하려면 딕셔너리 건너, 리스트 건너, 딕셔너리key접근~~
-  v = response.get('results') # type(v) = list
-  k = 0
-  p = v[len(v)//2].get('vote_average')
-  for i in v:
-    vk = v[k].get('vote_average')
-    while vk < p:
-      k += 1
-    while vk > p:
-      k -= 1
-    if vk <= v[k+1]:
-      v[k]
-    # ㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠ안풀려요ㅠㅠㅠㅠㅠ
-
-  return 
+  vt_avrg = []
+  
+  for data in response['results']:
+    vt_avrg.append(data['vote_average'])
+  vt_avrg=set(vt_avrg)
+  vt_avrg=sorted(list(vt_avrg))
+  vt_avrg=vt_avrg[::-1]
+  result_list = []
+  for avrg in vt_avrg:
+    for v in response['results']:
+      if avrg == v['vote_average']:
+        result_list.append(v)
+        if len(result_list) == 5:
+          return result_list
 
 
 # 아래의 코드는 수정하지 않습니다.
